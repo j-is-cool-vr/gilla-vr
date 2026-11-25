@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gilla VR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700&family=Creepster&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+/* VOICE occasion: a horror game's poster site, hushed and tense, not jokey
+   IDEA a night forest seen from inside the game, with a notice nailed to a tree for the rules
+   PICTURE full-bleed SVG forest at night, moon, fog, and red eyes watching from between the pines
+   COLOUR moss-black ground, bone-white ink, fog green, blood red only for the eyes and the stamp
+   TYPE Creepster for the game's name, Barlow for everything else, Special Elite on the notice
+   LAYOUT laptop: name in the sky top-left, forest fills the screen; phone: name band above a 380px forest */
+:root{color-scheme:dark;--bg:#08100e;--sky:#030706;--panel:#0f1a17;--line:#22332e;--ink:#ece6d6;--mute:#a7b6ae;--red:#c81f2e;--eye:#ff3b3b;--paper:#e6dec6;--pink:#b3202c}
+:root[data-theme=light]{color-scheme:dark}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Barlow,"Segoe UI",system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding-block:clamp(48px,7vw,104px);padding-left:max(5vw,16px,env(safe-area-inset-left,0px));padding-right:max(5vw,16px,env(safe-area-inset-right,0px))}
+h2{font:700 clamp(32px,4vw,46px)/1.05 Barlow,"Segoe UI",sans-serif;letter-spacing:-.02em;margin:0 0 16px;text-wrap:balance}
+p{margin:0 0 16px;max-width:62ch}
+.nav{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px;padding:10px max(5vw,16px);background:rgba(3,7,6,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.brand{font:400 32px/1 Creepster,Barlow,sans-serif;color:var(--ink);text-decoration:none;letter-spacing:.01em}
+.nav nav{display:flex;flex-wrap:wrap;gap:4px 8px}
+.nav nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:999px;text-decoration:none;color:var(--mute);font-weight:500}
+.nav nav a:hover{color:var(--ink);background:var(--panel)}
+.hero{position:relative;display:grid;min-height:clamp(560px,84svh,840px);background:var(--sky)}
+.hero-fig{grid-area:1/1;position:relative}
+.hero-fig svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-text{grid-area:1/1;position:relative;z-index:1;align-self:start;padding:clamp(48px,9vh,96px) max(5vw,16px) 0}
+.hero h1{font:400 clamp(72px,11.5vw,150px)/.95 Creepster,Barlow,sans-serif;margin:0 0 12px;letter-spacing:.01em}
+.tag{font:500 clamp(24px,2.6vw,32px)/1.2 Barlow,sans-serif;color:var(--mute);margin:0 0 28px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 24px;border-radius:999px;font:700 16px Barlow,sans-serif;text-decoration:none;transition:background .15s,border-color .15s}
+.btn.main{background:var(--red);color:#fff}
+.btn.main:hover{background:#a81826}
+.btn.ghost{border:1.5px solid rgba(236,230,214,.45);color:var(--ink);background:rgba(3,7,6,.6)}
+.btn.ghost:hover{border-color:var(--ink)}
+.eyes{transform-box:fill-box;transform-origin:center;animation:blink 7s infinite}
+@keyframes blink{0%,90%,100%{transform:scaleY(1)}93%{transform:scaleY(.08)}96%{transform:scaleY(1)}}
+@media(prefers-reduced-motion:reduce){.eyes{animation:none}html{scroll-behavior:auto}}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:stretch}
+.about .fig{position:relative;min-height:340px;background:radial-gradient(120% 90% at 70% 10%,#16241f,var(--panel) 60%);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.about .fig svg{position:absolute;inset:0;width:100%;height:100%}
+.stackcol{display:flex;flex-direction:column;gap:20px}
+.block{padding:clamp(22px,3vw,32px);border-radius:20px;border:1px solid var(--line);background:var(--panel);flex:1}
+.block p:last-child{margin-bottom:0}
+.small{font-size:14px;color:var(--mute)}
+.mods{background:#060c0a;border-block:1px solid var(--line)}
+.mods .grid2{align-items:center}
+.lead{font-size:17px;color:var(--mute)}
+.board{border-radius:20px;padding:clamp(28px,4vw,56px) clamp(16px,3vw,40px);display:grid;place-items:center;background:repeating-linear-gradient(90deg,#1b1510 0 14px,#231a13 14px 21px,#17110d 21px 38px,#1f1812 38px 46px)}
+.notice{position:relative;width:100%;max-width:440px;padding:40px clamp(20px,4vw,34px) 26px;background:linear-gradient(170deg,#efe8d3,var(--paper) 60%,#d8cdaf);color:#1d1813;font-family:"Special Elite","Courier New",monospace;transform:rotate(-1.5deg);box-shadow:10px 12px 0 rgba(0,0,0,.4)}
+.nail{position:absolute;top:14px;width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#c9c9c1,#55554f 70%)}
+.nail.l{left:16px}.nail.r{right:16px}
+.notice h3{font:400 clamp(26px,3vw,32px)/1.1 "Special Elite","Courier New",monospace;margin:0 0 4px}
+.notice .sub{font-size:14px;margin:0 0 14px;color:#4a4237}
+.rules{list-style:none;margin:0 0 18px;padding:0}
+.rules li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px dashed rgba(29,24,19,.4)}
+.rules b{display:inline-flex;align-items:center;gap:6px;font-weight:400;white-space:nowrap}
+.rules svg{width:18px;height:18px;flex:none}
+.foot-n{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.sign{font-size:14px;margin:0}
+.stamp{font:700 22px/1 Barlow,sans-serif;color:var(--pink);border:3px solid var(--pink);border-radius:6px;padding:6px 14px;transform:rotate(-9deg);opacity:.9}
+footer{background:var(--sky)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px 32px}
+footer p{margin:0;color:var(--mute);font-size:14px}
+footer nav{display:flex;flex-wrap:wrap;gap:4px 8px}
+footer nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;color:var(--mute);font-size:14px}
+@media(max-width:600px){
+.hero{min-height:0;grid-template-rows:auto 380px}
+.hero-text{padding-bottom:20px}
+.hero-fig{grid-area:2/1}
+.grid2{grid-template-columns:minmax(0,1fr)}
+.about .fig{order:2;min-height:260px}
+.nav .brand{display:none}
+.nav{padding-block:4px;justify-content:center}
+.nav nav{flex-wrap:nowrap;overflow-x:auto;gap:0}
+.nav nav a{flex:none;padding:0 9px;font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="#top">Gilla VR</a>
+  <nav aria-label="Sections">
+    <a href="#about">The game</a>
+    <a href="#claude">Made with Claude</a>
+    <a href="#modding">Modding</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-fig">
+    <svg id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" role="img" aria-label="A pine forest at night under the moon, with red eyes watching from between the trees"></svg>
+  </div>
+  <div class="hero-text">
+    <h1>Gilla VR</h1>
+    <p class="tag">A horror game you play in virtual reality.</p>
+    <div class="btns">
+      <a class="btn main" href="#modding">Modding rules</a>
+      <a class="btn ghost" href="#about">About the game</a>
+    </div>
+  </div>
+</section>
+
+<section class="band about" id="about">
+  <div class="wrap grid2">
+    <div class="fig">
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs>
+          <clipPath id="body"><rect x="60" y="92" width="280" height="132" rx="48"/></clipPath>
+          <radialGradient id="lens" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#1a2925"/><stop offset="1" stop-color="#020504"/></radialGradient>
+          <radialGradient id="eg" r=".5"><stop offset="0" stop-color="#ff3b3b" stop-opacity=".7"/><stop offset="1" stop-color="#ff3b3b" stop-opacity="0"/></radialGradient>
+        </defs>
+        <ellipse cx="200" cy="240" rx="150" ry="12" fill="#050a08"/>
+        <path d="M66 150 C40 60 360 60 334 150" fill="none" stroke="#1d2b27" stroke-width="18" stroke-linecap="round"/>
+        <path d="M70 140 C52 74 348 74 330 140" fill="none" stroke="#2c3f39" stroke-width="3" stroke-linecap="round"/>
+        <rect x="60" y="92" width="280" height="132" rx="48" fill="#22322d"/>
+        <rect x="60" y="168" width="280" height="70" fill="#17231f" clip-path="url(#body)"/>
+        <path d="M108 95 H292" stroke="#4a625a" stroke-width="3" stroke-linecap="round"/>
+        <rect x="74" y="106" width="252" height="104" rx="38" fill="none" stroke="#111a17" stroke-width="6"/>
+        <circle cx="146" cy="156" r="40" fill="url(#lens)" stroke="#33473f" stroke-width="7"/>
+        <circle cx="254" cy="156" r="40" fill="url(#lens)" stroke="#33473f" stroke-width="7"/>
+        <g>
+          <circle cx="146" cy="160" r="14" fill="url(#eg)"/>
+          <ellipse cx="140" cy="160" rx="3.2" ry="1.8" fill="#ff3b3b" transform="rotate(12 140 160)"/>
+          <ellipse cx="152" cy="160" rx="3.2" ry="1.8" fill="#ff3b3b" transform="rotate(-12 152 160)"/>
+          <circle cx="254" cy="160" r="14" fill="url(#eg)"/>
+          <ellipse cx="248" cy="160" rx="3.2" ry="1.8" fill="#ff3b3b" transform="rotate(12 248 160)"/>
+          <ellipse cx="260" cy="160" rx="3.2" ry="1.8" fill="#ff3b3b" transform="rotate(-12 260 160)"/>
+        </g>
+        <path d="M128 136 A26 26 0 0 1 150 128" fill="none" stroke="#dfe8e2" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>
+        <path d="M236 136 A26 26 0 0 1 258 128" fill="none" stroke="#dfe8e2" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>
+        <path d="M172 226 Q200 176 228 226 Z" fill="#0f1a17"/>
+      </svg>
+    </div>
+    <div class="stackcol">
+      <div class="block">
+        <h2>Horror you stand inside</h2>
+        <p>Gilla is a VR horror game. There is no screen between you and the dark: you put the headset on, and you are in it.</p>
+      </div>
+      <div class="block" id="claude">
+        <h2>Made with Claude</h2>
+        <p>Gilla was made with heavy use of Claude, the AI model from Anthropic. A big part of the game came together through that work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band mods" id="modding">
+  <div class="wrap grid2">
+    <div>
+      <h2>Mod Gilla however you want. Even in public lobbies.</h2>
+      <p class="lead">The rule is simple. Every type of modding is allowed, and that goes for public lobbies as well as private ones.</p>
+    </div>
+    <div class="board">
+      <article class="notice" aria-label="Modding rules notice">
+        <span class="nail l"></span><span class="nail r"></span>
+        <h3>Notice to all players</h3>
+        <p class="sub">Gilla modding rules</p>
+        <ul class="rules" id="rules"></ul>
+        <div class="foot-n">
+          <p class="sign">Signed, the Gilla mod team</p>
+          <span class="stamp">Allowed</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<footer class="band">
+  <div class="wrap">
+    <a class="brand" href="#top">Gilla VR</a>
+    <p>Community website kept by the Gilla mod team.</p>
+    <nav aria-label="Footer">
+      <a href="#about">The game</a>
+      <a href="#claude">Made with Claude</a>
+      <a href="#modding">Modding</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+{
+  const rules = ['Any type of mod', 'Private lobbies', 'Public lobbies'];
+  const tick = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 11 L8 15.5 L17 4.5" fill="none" stroke="#1d1813" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  document.getElementById('rules').innerHTML = rules.map(r => `<li><span>${r}</span><b>${tick}Allowed</b></li>`).join('');
+
+  const s = document.getElementById('scene');
+  let seed = 11;
+  const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+  const R = n => Math.round(n);
+  const pine = (x, b, h, w) => {
+    let d = '', l = '';
+    for (let i = 0; i < 4; i++) {
+      const t = b - h + i * h * .2, bt = t + h * .38, hw = w * (.32 + i * .23) / 2;
+      d += `M${R(x)} ${R(t)}L${R(x + hw)} ${R(bt)}L${R(x - hw)} ${R(bt)}Z`;
+      l += `M${R(x)} ${R(t)}L${R(x + hw)} ${R(bt)}L${R(x + hw * .15)} ${R(bt)}Z`;
+    }
+    d += `M${R(x - w * .05)} ${R(b - h * .1)}h${R(w * .1)}V${b}h${-R(w * .1)}Z`;
+    return [d, l];
+  };
+  const layer = (trees, fill, light) => {
+    let d = '', l = '';
+    trees.forEach(t => { const p = pine(...t); d += p[0]; l += p[1]; });
+    return `<path d="${d}" fill="${fill}"/>` + (light ? `<path d="${l}" fill="${light}"/>` : '');
+  };
+
+  let stars = '';
+  for (let i = 0; i < 90; i++) {
+    stars += `<circle cx="${R(760 + rnd() * 840)}" cy="${R(rnd() * 480)}" r="${(.6 + rnd() * 1.3).toFixed(1)}" fill="#ece6d6" opacity="${(.25 + rnd() * .6).toFixed(2)}"/>`;
+  }
+
+  const far = [];
+  for (let x = -20; x < 1640; x += 16 + rnd() * 22) {
+    const h = x < 840 ? 40 + rnd() * 45 : 80 + rnd() * 100;
+    far.push([x, 652 + rnd() * 10, h, h * .5]);
+  }
+  const mid = [];
+  for (let x = 470; x < 1640; x += 42 + rnd() * 40) {
+    if (Math.abs(x - 1040) < 88) continue;
+    const h = x < 840 ? 130 + rnd() * 60 : 260 + rnd() * 170;
+    mid.push([x, 762, h, h * .46]);
+  }
+  let grass = '';
+  for (let i = 0; i < 160; i++) {
+    const x = rnd() * 1600, y = 792 + Math.sin(x / 140) * 8, h = 8 + rnd() * 18;
+    grass += `M${R(x - 3)} ${R(y + 4)}L${R(x + rnd() * 6 - 3)} ${R(y - h)}L${R(x + 3)} ${R(y + 4)}Z`;
+  }
+
+  s.innerHTML = `
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#030706"/><stop offset=".5" stop-color="#091411"/><stop offset=".74" stop-color="#1c2f2a"/>
+    </linearGradient>
+    <linearGradient id="fog" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fb8ad" stop-opacity="0"/><stop offset=".5" stop-color="#9fb8ad" stop-opacity=".17"/><stop offset="1" stop-color="#9fb8ad" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="moon" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#f6f1e2"/><stop offset="1" stop-color="#c3cab6"/></radialGradient>
+    <radialGradient id="halo" r=".5"><stop offset="0" stop-color="#ece6d6" stop-opacity=".2"/><stop offset="1" stop-color="#ece6d6" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glow" r=".5"><stop offset="0" stop-color="#ff3b3b" stop-opacity=".6"/><stop offset="1" stop-color="#ff3b3b" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  ${stars}
+  <circle cx="1190" cy="260" r="170" fill="url(#halo)"/>
+  <circle cx="1190" cy="260" r="56" fill="url(#moon)"/>
+  <circle cx="1172" cy="248" r="10" fill="#b4bba7" opacity=".45"/>
+  <circle cx="1206" cy="276" r="7" fill="#b4bba7" opacity=".4"/>
+  <circle cx="1200" cy="236" r="5" fill="#b4bba7" opacity=".35"/>
+  <path d="M1080 286 C1120 266 1180 280 1230 270 C1270 262 1300 274 1320 284 C1260 300 1140 302 1080 286Z" fill="#0b1513" opacity=".85"/>
+  <path d="M0 656 Q400 636 800 652 T1600 644 V900 H0Z" fill="#1c2e29"/>
+  ${layer(far, '#1c2e29')}
+  <rect y="590" width="1600" height="130" fill="url(#fog)"/>
+  <path d="M988 810 C986 690 1002 606 1040 596 C1078 606 1094 690 1092 810Z" fill="#070d0b"/>
+  <g class="eyes">
+    <circle cx="1026" cy="628" r="24" fill="url(#glow)"/>
+    <circle cx="1054" cy="628" r="24" fill="url(#glow)"/>
+    <ellipse cx="1026" cy="628" rx="7" ry="3.6" fill="#ff3b3b" transform="rotate(12 1026 628)"/>
+    <ellipse cx="1054" cy="628" rx="7" ry="3.6" fill="#ff3b3b" transform="rotate(-12 1054 628)"/>
+  </g>
+  ${layer(mid, '#0e1815', '#16251f')}
+  <rect y="690" width="1600" height="130" fill="url(#fog)"/>
+  <path d="M0 796 C300 776 600 806 900 790 S1400 776 1600 796 V900 H0Z" fill="#08100e"/>
+  <path d="${grass}" fill="#08100e"/>
+  ${layer([[90, 900, 250, 125], [1380, 900, 520, 240], [1500, 900, 830, 400], [1625, 900, 700, 330]], '#030605', '#0c1613')}
+  `;
+}
+</script>
+</body>
+</html>
